@@ -22,6 +22,14 @@ spec:
   steps:
     - name: build-and-push
       image: gcr.io/kaniko-project/executor
+      securityContext:
+        runAsUser: 0
+      volumeMounts:
+        - name: docker-config
+          mountPath: /kaniko/.docker
+      env:
+        - name: "DOCKER_CONFIG"
+          value: "/builder/home/.docker"
       command:
         - /kaniko/executor
       args:
@@ -29,3 +37,7 @@ spec:
         - --destination=$(inputs.params.imageUrl):$(inputs.params.imageTag)
         - --context=/workspace/git-source/$(inputs.params.pathToContext)
         - --skip-tls-verify
+  volumes:
+    - name: docker-config
+      configMap: 
+        name: docker-config

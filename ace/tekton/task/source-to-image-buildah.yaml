@@ -30,9 +30,6 @@ spec:
   - name: build
     image: quay.io/buildah/stable:v1.11.0
     workingDir: /workspace/source
-#   command: ['buildah', 'bud', '--tls-verify=$(inputs.params.TLSVERIFY)', '--layers', '-f', '$(inputs.params.pathToContext):$(inputs.params.pathToDockerFile)', '-t', '$(inputs.params.imageUrl):$(inputs.params.imageTag)', '.']
-#wk command: ['buildah', 'bud', '--tls-verify=$(inputs.params.TLSVERIFY)','-t', 'ace11002mqc91ms2:latest','github.com/DAVEXACOM/ibm-ace-mqc-soe-ms2-build']  
-#wk command: ['buildah', 'bud', '--tls-verify=$(inputs.params.TLSVERIFY)','-t', 'ace11002mqc91ms2:latest','github.com/DAVEXACOM/ibm-ace-mqc-soe-ms2-build']
     command: ['buildah', 'bud', '--tls-verify=$(inputs.params.TLSVERIFY)','-t', '$(inputs.params.imageUrl):$(inputs.params.imageTag)','github.com/DAVEXACOM/ibm-ace-mqc-soe-ms2-build']
 
     volumeMounts:
@@ -44,8 +41,6 @@ spec:
   - name: push
     image: quay.io/buildah/stable:v1.11.0
     workingDir: /workspace/source
-#   command: ['buildah', 'push', '--tls-verify=$(inputs.params.TLSVERIFY)', '$(inputs.params.imageUrl):$(inputs.params.imageTag)', 'image-registry.openshift-image-registry.svc:5000/$(inputs.params.imageUrl):$(inputs.params.imageTag)']
-#wk command: ['buildah', 'push', '--tls-verify=false', 'ace11002mqc91ms2:latest','image-registry.openshift-image-registry.svc:5000/da-build-project/ace11002mqc91ms2:latest']
     command: ['buildah', 'push', '--tls-verify=$(inputs.params.TLSVERIFY)', '$(inputs.params.imageUrl):$(inputs.params.imageTag)','image-registry.openshift-image-registry.svc:5000/da-build-project/ace11002mqc91ms2:latest']
 
     volumeMounts:
