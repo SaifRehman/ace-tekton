@@ -1,0 +1,18 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: tls-tlsprqm1p
+  labels:
+    app: ibm-mqadvanced-server-tls-build
+spec:
+  host: ibm-mqadvanced-server-tls-build-da-build-project-dev.mycluster-336573-7668c7cb8fc5e368809b49af77a1e9c2-0000.eu-gb.containers.appdomain.cloud
+  subdomain: ''
+  to:
+    kind: Service
+    name: ibm-mqadvanced-server-tls-build
+    weight: 100
+  port:
+    targetPort: 1414-tcp
+  tls:
+    termination: passthrough
+  wildcardPolicy: None
