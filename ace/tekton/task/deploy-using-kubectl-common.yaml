@@ -23,7 +23,7 @@ spec:
         - "-i"
         - "-e"
         - "s;__IMAGE__;$(inputs.params.imageUrl):$(inputs.params.imageTag);g"
-        - "/workspace/git-source/$(inputs.params.pathToYamlFile)"
+        - "/workspace/git-source/acemsdep/deploymentconfig.yaml"
     - name: run-kubectl
       image: lachlanevenson/k8s-kubectl
       command: ["kubectl"]

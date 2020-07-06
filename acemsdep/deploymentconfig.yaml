@@ -1,35 +1,51 @@
 apiVersion: extensions/v1beta1
-kind: Deployment
+kind: DeploymentConfig
 metadata:
   annotations:
     appconnectenterprise: icp4i
     appconnectenterpriseContentUrl: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Microservice3
     deployment.kubernetes.io/revision: "1"
-    serverName: saifmyace
+    serverName: tektonace
   labels:
-    app.kubernetes.io/instance: saifmyace
+    app.kubernetes.io/instance: tektonace
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: saifmyace
-  name: saifmyace-ibm-ace-server-icp4i-prod
+    release: tektonace
+  name: tektonace-ibm-ace-server-icp4i-prod
   namespace: bma-dev
 spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - ace11002mqc91ms2
+        from:
+          kind: ImageStreamTag
+          namespace: bma-dev
+          name: 'ace11002mqc91ms2:latest'
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app.kubernetes.io/instance: saifmyace
+      app.kubernetes.io/instance: tektonace
       app.kubernetes.io/managed-by: Tiller
       app.kubernetes.io/name: ibm-ace-server-icp4i-prod
       helm.sh/chart: ibm-ace-server-icp4i-prod
-      release: saifmyace
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
+      release: tektonace
   template:
     metadata:
       annotations:
@@ -40,12 +56,12 @@ spec:
         productName: IBM Cloud Pak for Integration - IBM App Connect Enterprise (Chargeable)
         productVersion: 11.0.0.8
       labels:
-        app.kubernetes.io/instance: saifmyace
+        app.kubernetes.io/instance: tektonace
         app.kubernetes.io/managed-by: Tiller
         app.kubernetes.io/name: ibm-ace-server-icp4i-prod
         helm.sh/chart: ibm-ace-server-icp4i-prod
-        release: saifmyace
-      name: saifmyace-ibm-ace-server-icp4i-prod
+        release: tektonace
+      name: tektonace-ibm-ace-server-icp4i-prod
     spec:
       affinity:
         nodeAffinity:
@@ -65,9 +81,9 @@ spec:
         - name: DEV_QMGR
           value: "false"
         - name: ACE_SERVER_NAME
-          value: saifmyace
+          value: tektonace
         - name: SERVICE_NAME
-          value: saifmyace-ibm-ace-server-icp4i-prod
+          value: tektonace-ibm-ace-server-icp4i-prod
         - name: DEFAULT_CONTENT_SERVER
           value: "true"
         - name: ACE_CONTENT_SERVER_URL
@@ -83,30 +99,30 @@ spec:
         - name: ACE_ENABLE_OPEN_TRACING
           value: "false"
         - name: ACE_HTTP_ROUTE_NAME
-          value: saifmyace-http
+          value: tektonace-http
         - name: ACE_HTTPS_ROUTE_NAME
-          value: saifmyace-https
+          value: tektonace-https
         - name: ACE_ENDPOINT_TYPE
           value: http
         - name: ACE_KEYSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
               key: keystorePassword
-              name: saifmyace-ibm-ace-server-icp4i-prod-configuration
+              name: tektonace-ibm-ace-server-icp4i-prod-configuration
               optional: true
         - name: ACE_TRUSTSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
               key: truststorePassword
-              name: saifmyace-ibm-ace-server-icp4i-prod-configuration
+              name: tektonace-ibm-ace-server-icp4i-prod-configuration
               optional: true
         - name: ACE_DEFAULT_APPLICATION_NAME
         - name: ACE_ADMIN_SERVER_SECURITY
           value: "false"
-        image: image-registry.openshift-image-registry.svc:5000/bma-dev/ace11002mqc91ms2@sha256:47bb66ef0bca1d06a450bdd0de7644930484f45a27af42b4eb7324149f5acd11
+        image: >-
+          __IMAGE__
         imagePullPolicy: IfNotPresent
-
-        name: saifmyace-ibm-ace-server-icp4i-prod
+        name: ace11002mqc91ms2
         ports:
         - containerPort: 7600
           name: webui
@@ -162,14 +178,14 @@ spec:
       initContainers:
       - args:
         - -c
-        - until [ $(/usr/local/bin/kubectl get job saifmyace-ibm-ace-server-icp4i-prod-config-gen
+        - until [ $(/usr/local/bin/kubectl get job tektonace-ibm-ace-server-icp4i-prod-config-gen
           -o jsonpath="{.status.succeeded}") = 1 ]; do sleep 1; done && echo "WebUsers
           Created"
         command:
         - sh
         image: cp.icr.io/cp/icp4i/ace/ibm-acecc-configurator-prod:11.0.0.8-r1-amd64
         imagePullPolicy: IfNotPresent
-        name: saifmyace-ibm-ace-server-icp4i-prod-init
+        name: tektonace-ibm-ace-server-icp4i-prod-init
         resources:
           limits:
             cpu: 500m
@@ -194,8 +210,8 @@ spec:
         fsGroup: 1001
         runAsNonRoot: true
         runAsUser: 1000
-      serviceAccount: saifmyace-ibm-ace-server-icp4i-prod-serviceaccount
-      serviceAccountName: saifmyace-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccount: tektonace-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccountName: tektonace-ibm-ace-server-icp4i-prod-serviceaccount
       terminationGracePeriodSeconds: 30
       volumes:
       - name: webusers
