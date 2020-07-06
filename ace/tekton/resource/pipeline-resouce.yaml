@@ -8,4 +8,4 @@ spec:
     - name: revision
       value: master
     - name: url
-      value: https://github.com/SaifRehman/ibm-ace-mqc-soe-ms2-build
+      value: https://github.com/SaifRehman/ace-tekton.git
