@@ -30,3 +30,18 @@ $ oc apply -f ace/tekton/task/deploy-using-kubectl-common.yaml
 ```
 $ oc apply -f ace/tekton/task/source-to-image-kaniko.yaml
 ```
+
+> Please not namespaces in all config files. also rename tektonace string to name you want in acemsdep folder. then commit and push 
+
+## Apply service account
+1. Create service account, role, and rolebinding
+
+```
+$ oc apply -f sa/
+```
+
+## Run pipeline
+2.  Go to openshift dashboard, click select ur namespace where you have the pipeline configuration deployed 
+![alt text](http://url/to/img.png)
+
+
