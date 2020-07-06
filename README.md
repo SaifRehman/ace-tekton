@@ -41,7 +41,9 @@ $ oc apply -f sa/
 ```
 
 ## Run pipeline
-2.  Go to openshift dashboard, click select ur namespace where you have the pipeline configuration deployed 
-![alt text](http://url/to/img.png)
+1. Go to openshift dashboard, click select ur namespace where you have the pipeline configuration deployed 
+2. Select pipeline, and create on create pipeline 
+
+![alt text](1.png)
 
 
