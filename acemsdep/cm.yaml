@@ -4,16 +4,14 @@ data:
     #!/bin/bash -e
     echo "Check if secret tektonace-ibm-ace-server-icp4i-prod already exists"
     kubectl get secret tektonace-ibm-ace-server-icp4i-prod && echo "Secret already exists" && exit 0
-    uid=$(oc get dc tektonace-ibm-ace-server-icp4i-prod -o jsonpath="{.metadata.uid}")
+    uid=$(oc get deployment tektonace-ibm-ace-server-icp4i-prod -o jsonpath="{.metadata.uid}")
     cp /server/webusers.yaml /tmp/
     sed -i "s/REPLACEME/$uid/g" /tmp/webusers.yaml
-
     sed -i "s/ADMIN_USER/$(echo "ibm-ace-dashboard-admin "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
     sed -i "s/OPERATOR_USER/$(echo "ibm-ace-dashboard-operator "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
     sed -i "s/VIEWER_USER/$(echo "ibm-ace-dashboard-viewer "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
     sed -i "s/EDITOR_USER/$(echo "ibm-ace-dashboard-editor "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
     sed -i "s/AUDIT_USER/$(echo "ibm-ace-dashboard-audit "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
-
     echo "Creating secret tektonace-ibm-ace-server-icp4i-prod for release "tektonace""
     kubectl apply -f /tmp/webusers.yaml
   webusers.yaml: |

@@ -1,11 +1,12 @@
-apiVersion: apps.openshift.io/v1
-kind: DeploymentConfig
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
   annotations:
     appconnectenterprise: icp4i
     appconnectenterpriseContentUrl: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Microservice3
     deployment.kubernetes.io/revision: "1"
     serverName: tektonace
+  generation: 1
   labels:
     app.kubernetes.io/instance: tektonace
     app.kubernetes.io/managed-by: Tiller
@@ -15,34 +16,21 @@ metadata:
   name: tektonace-ibm-ace-server-icp4i-prod
   namespace: bma-dev
 spec:
-  strategy:
-    type: Rolling
-    rollingParams:
-      updatePeriodSeconds: 1
-      intervalSeconds: 1
-      timeoutSeconds: 600
-      maxUnavailable: 25%
-      maxSurge: 25%
-    resources: {}
-    activeDeadlineSeconds: 21600
-  triggers:
-    - type: ConfigChange
-    - type: ImageChange
-      imageChangeParams:
-        automatic: true
-        containerNames:
-          - ace11002mqc91ms2
-        from:
-          kind: ImageStreamTag
-          namespace: bma-dev
-          name: 'ace11002mqc91ms2:latest'
+  progressDeadlineSeconds: 600
   replicas: 1
+  revisionHistoryLimit: 10
   selector:
-    app.kubernetes.io/instance: tektonace
-    app.kubernetes.io/managed-by: Tiller
-    app.kubernetes.io/name: ibm-ace-server-icp4i-prod
-    helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: tektonace
+    matchLabels:
+      app.kubernetes.io/instance: tektonace
+      app.kubernetes.io/managed-by: Tiller
+      app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+      helm.sh/chart: ibm-ace-server-icp4i-prod
+      release: tektonace
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       annotations:
@@ -52,6 +40,7 @@ spec:
         productID: 606f1a9feb4f4cbc85b17a637f6a6b24
         productName: IBM Cloud Pak for Integration - IBM App Connect Enterprise (Chargeable)
         productVersion: 11.0.0.8
+      creationTimestamp: null
       labels:
         app.kubernetes.io/instance: tektonace
         app.kubernetes.io/managed-by: Tiller
@@ -116,10 +105,18 @@ spec:
         - name: ACE_DEFAULT_APPLICATION_NAME
         - name: ACE_ADMIN_SERVER_SECURITY
           value: "false"
-        image: >-
-          __IMAGE__
+        image: image-registry.openshift-image-registry.svc:5000/bma-dev/ace11002mqc91ms2:latest
         imagePullPolicy: IfNotPresent
-        name: ace11002mqc91ms2
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #     - chkacehealthy
+        #   failureThreshold: 1
+        #   initialDelaySeconds: 360
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 5
+        name: tektonace-ibm-ace-server-icp4i-prod
         ports:
         - containerPort: 7600
           name: webui
@@ -130,6 +127,15 @@ spec:
         - containerPort: 7843
           name: ace-https
           protocol: TCP
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - chkaceready
+        #   failureThreshold: 1
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 5
+        #   successThreshold: 1
+        #   timeoutSeconds: 3
         resources:
           limits:
             cpu: "1"
@@ -226,7 +232,7 @@ spec:
           - key: auditusers
             path: audit-users.txt
           optional: true
-          secretName: secret-ibm-ace-server-icp4i-prod
+          secretName: tektonace-ibm-ace-server-icp4i-prod
       - name: odbcini
         secret:
           defaultMode: 420
@@ -234,7 +240,7 @@ spec:
           - key: odbcini
             path: odbc.ini
           optional: true
-          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+          secretName: tektonace-ibm-ace-server-icp4i-prod-configuration
       - name: extensions
         secret:
           defaultMode: 420
@@ -242,7 +248,7 @@ spec:
           - key: extensions
             path: extensions.zip
           optional: true
-          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+          secretName: tektonace-ibm-ace-server-icp4i-prod-configuration
       - name: agent
         secret:
           defaultMode: 420
@@ -256,7 +262,7 @@ spec:
           - key: switch
             path: switch.json
           optional: true
-          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+          secretName: tektonace-ibm-ace-server-icp4i-prod-configuration
       - name: policy
         secret:
           defaultMode: 420
@@ -266,7 +272,7 @@ spec:
           - key: policyDescriptor
             path: policy.descriptor
           optional: true
-          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+          secretName: tektonace-ibm-ace-server-icp4i-prod-configuration
       - name: serverconf
         secret:
           defaultMode: 420
@@ -274,7 +280,7 @@ spec:
           - key: serverconf
             path: server.conf.yaml
           optional: true
-          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+          secretName: tektonace-ibm-ace-server-icp4i-prod-configuration
       - name: setdbparms
         secret:
           defaultMode: 420
@@ -282,7 +288,7 @@ spec:
           - key: setdbparms
             path: setdbparms.txt
           optional: true
-          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+          secretName: tektonace-ibm-ace-server-icp4i-prod-configuration
       - name: ssl
         secret:
           defaultMode: 420
@@ -294,7 +300,7 @@ spec:
           - key: tls.crt
             path: tls.crt.pem
           optional: true
-          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+          secretName: tektonace-ibm-ace-server-icp4i-prod-configuration
       - name: contentservertls
         secret:
           defaultMode: 420
