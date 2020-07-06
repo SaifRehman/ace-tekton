@@ -36,16 +36,13 @@ spec:
           kind: ImageStreamTag
           namespace: bma-dev
           name: 'ace11002mqc91ms2:latest'
-  progressDeadlineSeconds: 600
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
-    matchLabels:
-      app.kubernetes.io/instance: tektonace
-      app.kubernetes.io/managed-by: Tiller
-      app.kubernetes.io/name: ibm-ace-server-icp4i-prod
-      helm.sh/chart: ibm-ace-server-icp4i-prod
-      release: tektonace
+    app.kubernetes.io/instance: tektonace
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+    helm.sh/chart: ibm-ace-server-icp4i-prod
+    release: tektonace
   template:
     metadata:
       annotations:
