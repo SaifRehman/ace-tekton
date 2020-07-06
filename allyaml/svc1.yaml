@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: saifmyace
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+    helm.sh/chart: ibm-ace-server-icp4i-prod
+    release: saifmyace
+  name: saifmyace-ibm-ace-server-icp4i-prod
+  namespace: bma-dev
+spec:
+  ports:
+  - name: webui
+    port: 7600
+    protocol: TCP
+    targetPort: 7600
+  - name: ace-http
+    port: 7800
+    protocol: TCP
+    targetPort: 7800
+  - name: ace-https
+    port: 7843
+    protocol: TCP
+    targetPort: 7843
+  selector:
+    app.kubernetes.io/instance: saifmyace
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+    helm.sh/chart: ibm-ace-server-icp4i-prod
+    release: saifmyace
+  type: ClusterIP

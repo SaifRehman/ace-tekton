@@ -1,0 +1,46 @@
+apiVersion: v1
+data:
+  createwebusers.sh: |
+    #!/bin/bash -e
+    echo "Check if secret saifmyace-ibm-ace-server-icp4i-prod already exists"
+    kubectl get secret saifmyace-ibm-ace-server-icp4i-prod && echo "Secret already exists" && exit 0
+    uid=$(oc get Deployment saifmyace-ibm-ace-server-icp4i-prod -o jsonpath="{.metadata.uid}")
+    cp /server/webusers.yaml /tmp/
+    sed -i "s/REPLACEME/$uid/g" /tmp/webusers.yaml
+
+    sed -i "s/ADMIN_USER/$(echo "ibm-ace-dashboard-admin "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
+    sed -i "s/OPERATOR_USER/$(echo "ibm-ace-dashboard-operator "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
+    sed -i "s/VIEWER_USER/$(echo "ibm-ace-dashboard-viewer "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
+    sed -i "s/EDITOR_USER/$(echo "ibm-ace-dashboard-editor "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
+    sed -i "s/AUDIT_USER/$(echo "ibm-ace-dashboard-audit "$(uuid -v4) | base64 -w 100)/g" /tmp/webusers.yaml
+
+    echo "Creating secret saifmyace-ibm-ace-server-icp4i-prod for release "saifmyace""
+    kubectl apply -f /tmp/webusers.yaml
+  webusers.yaml: |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: saifmyace-ibm-ace-server-icp4i-prod
+      labels:
+        app.kubernetes.io/name: "ibm-ace-server-icp4i-prod"
+        helm.sh/chart: "ibm-ace-server-icp4i-prod"
+        app.kubernetes.io/managed-by: "Tiller"
+        app.kubernetes.io/instance: "saifmyace"
+        release: "saifmyace"
+    type: Opaque
+    data:
+      adminusers: ADMIN_USER
+      operatorusers: OPERATOR_USER
+      viewerusers: VIEWER_USER
+      editorusers: EDITOR_USER
+      auditusers: AUDIT_USER
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/instance: saifmyace
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+    helm.sh/chart: ibm-ace-server-icp4i-prod
+    release: saifmyace
+  name: saifmyace-ibm-ace-server-icp4i-prod-create-configurator-config
+  namespace: bma-dev

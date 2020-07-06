@@ -1,0 +1,291 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    appconnectenterprise: icp4i
+    appconnectenterpriseContentUrl: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Microservice3
+    deployment.kubernetes.io/revision: "1"
+    serverName: saifmyace
+  labels:
+    app.kubernetes.io/instance: saifmyace
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+    helm.sh/chart: ibm-ace-server-icp4i-prod
+    release: saifmyace
+  name: saifmyace-ibm-ace-server-icp4i-prod
+  namespace: bma-dev
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: saifmyace
+      app.kubernetes.io/managed-by: Tiller
+      app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+      helm.sh/chart: ibm-ace-server-icp4i-prod
+      release: saifmyace
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cloudpakName: IBM Cloud Pak for Integration
+        cloudpakVersion: 2019.4.1
+        cloudpakid: c8b82d189e7545f0892db9ef2731b90d
+        productID: 606f1a9feb4f4cbc85b17a637f6a6b24
+        productName: IBM Cloud Pak for Integration - IBM App Connect Enterprise (Chargeable)
+        productVersion: 11.0.0.8
+      labels:
+        app.kubernetes.io/instance: saifmyace
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+        helm.sh/chart: ibm-ace-server-icp4i-prod
+        release: saifmyace
+      name: saifmyace-ibm-ace-server-icp4i-prod
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+      containers:
+      - env:
+        - name: LICENSE
+          value: accept
+        - name: USE_QMGR
+          value: "false"
+        - name: DEV_QMGR
+          value: "false"
+        - name: ACE_SERVER_NAME
+          value: saifmyace
+        - name: SERVICE_NAME
+          value: saifmyace-ibm-ace-server-icp4i-prod
+        - name: DEFAULT_CONTENT_SERVER
+          value: "true"
+        - name: ACE_CONTENT_SERVER_URL
+          value: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Microservice3
+        - name: ACE_CONTENT_SERVER_NAME
+          value: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+        - name: ACE_CONTENT_SERVER_TOKEN
+          value: 0c867f94-e6ab-4611-8799-415f12260d57
+        - name: LOG_FORMAT
+          value: basic
+        - name: ACE_ENABLE_METRICS
+          value: "true"
+        - name: ACE_ENABLE_OPEN_TRACING
+          value: "false"
+        - name: ACE_HTTP_ROUTE_NAME
+          value: saifmyace-http
+        - name: ACE_HTTPS_ROUTE_NAME
+          value: saifmyace-https
+        - name: ACE_ENDPOINT_TYPE
+          value: http
+        - name: ACE_KEYSTORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: keystorePassword
+              name: saifmyace-ibm-ace-server-icp4i-prod-configuration
+              optional: true
+        - name: ACE_TRUSTSTORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: truststorePassword
+              name: saifmyace-ibm-ace-server-icp4i-prod-configuration
+              optional: true
+        - name: ACE_DEFAULT_APPLICATION_NAME
+        - name: ACE_ADMIN_SERVER_SECURITY
+          value: "false"
+        image: image-registry.openshift-image-registry.svc:5000/bma-dev/ace11002mqc91ms2@sha256:47bb66ef0bca1d06a450bdd0de7644930484f45a27af42b4eb7324149f5acd11
+        imagePullPolicy: IfNotPresent
+
+        name: saifmyace-ibm-ace-server-icp4i-prod
+        ports:
+        - containerPort: 7600
+          name: webui
+          protocol: TCP
+        - containerPort: 7800
+          name: ace-http
+          protocol: TCP
+        - containerPort: 7843
+          name: ace-https
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            add:
+            - CHOWN
+            - FOWNER
+            - DAC_OVERRIDE
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /home/aceuser/initial-config/webusers
+          name: webusers
+        - mountPath: /home/aceuser/initial-config/odbcini
+          name: odbcini
+        - mountPath: /home/aceuser/initial-config/policy
+          name: policy
+        - mountPath: /home/aceuser/initial-config/serverconf
+          name: serverconf
+        - mountPath: /home/aceuser/initial-config/setdbparms
+          name: setdbparms
+        - mountPath: /home/aceuser/initial-config/extensions
+          name: extensions
+        - mountPath: /home/aceuser/initial-config/agent
+          name: agent
+        - mountPath: /home/aceuser/initial-config/ssl
+          name: ssl
+        - mountPath: /home/aceuser/ssl
+          name: contentservertls
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - -c
+        - until [ $(/usr/local/bin/kubectl get job saifmyace-ibm-ace-server-icp4i-prod-config-gen
+          -o jsonpath="{.status.succeeded}") = 1 ]; do sleep 1; done && echo "WebUsers
+          Created"
+        command:
+        - sh
+        image: cp.icr.io/cp/icp4i/ace/ibm-acecc-configurator-prod:11.0.0.8-r1-amd64
+        imagePullPolicy: IfNotPresent
+        name: saifmyace-ibm-ace-server-icp4i-prod-init
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1028Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1001
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 1001
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccount: saifmyace-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccountName: saifmyace-ibm-ace-server-icp4i-prod-serviceaccount
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: webusers
+        secret:
+          defaultMode: 420
+          items:
+          - key: adminusers
+            path: admin-users.txt
+          - key: operatorusers
+            path: operator-users.txt
+          - key: viewerusers
+            path: viewer-users.txt
+          - key: editorusers
+            path: editor-users.txt
+          - key: auditusers
+            path: audit-users.txt
+          optional: true
+          secretName: secret-ibm-ace-server-icp4i-prod
+      - name: odbcini
+        secret:
+          defaultMode: 420
+          items:
+          - key: odbcini
+            path: odbc.ini
+          optional: true
+          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+      - name: extensions
+        secret:
+          defaultMode: 420
+          items:
+          - key: extensions
+            path: extensions.zip
+          optional: true
+          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+      - name: agent
+        secret:
+          defaultMode: 420
+          items:
+          - key: agentc
+            path: agentc.json
+          - key: agentp
+            path: agentp.json
+          - key: agentx
+            path: agentx.json
+          - key: switch
+            path: switch.json
+          optional: true
+          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+      - name: policy
+        secret:
+          defaultMode: 420
+          items:
+          - key: policy
+            path: default.policyxml
+          - key: policyDescriptor
+            path: policy.descriptor
+          optional: true
+          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+      - name: serverconf
+        secret:
+          defaultMode: 420
+          items:
+          - key: serverconf
+            path: server.conf.yaml
+          optional: true
+          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+      - name: setdbparms
+        secret:
+          defaultMode: 420
+          items:
+          - key: setdbparms
+            path: setdbparms.txt
+          optional: true
+          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+      - name: ssl
+        secret:
+          defaultMode: 420
+          items:
+          - key: ca.crt
+            path: ca.crt.pem
+          - key: tls.key
+            path: tls.key.pem
+          - key: tls.crt
+            path: tls.crt.pem
+          optional: true
+          secretName: secret-ibm-ace-server-icp4i-prod-configuration
+      - name: contentservertls
+        secret:
+          defaultMode: 420
+          items:
+          - key: contentServerCACert
+            path: cacert.pem
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod

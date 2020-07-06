@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    release: saifmyace
+  name: saifmyace-ibm-ace-server-icp4i-prod-rolebinding
+  namespace: bma-dev
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: saifmyace-ibm-ace-server-icp4i-prod-role
+subjects:
+- kind: ServiceAccount
+  name: saifmyace-ibm-ace-server-icp4i-prod-serviceaccount
+  namespace: bma-dev

@@ -1,0 +1,22 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    openshift.io/host.generated: "true"
+  labels:
+    app.kubernetes.io/instance: saifmyace
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+    helm.sh/chart: ibm-ace-server-icp4i-prod
+    release: saifmyace
+  name: saifmyace-http
+  namespace: bma-dev
+spec:
+  host: saifmyace-http-bma-dev.mycluster-336573-7668c7cb8fc5e368809b49af77a1e9c2-0000.eu-gb.containers.appdomain.cloud
+  port:
+    targetPort: ace-http
+  to:
+    kind: Service
+    name: saifmyace-ibm-ace-server-icp4i-prod
+    weight: 100
+  wildcardPolicy: None

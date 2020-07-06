@@ -1,0 +1,46 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    release: saifmyace
+  name: saifmyace-ibm-ace-server-icp4i-prod-role
+  namespace: bma-dev
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - services
+  - secrets
+  verbs:
+  - get
+  - list
+  - create
+  - delete
+- apiGroups:
+  - extensions
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - route.openshift.io
+  resources:
+  - routes
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - apps
+  resources:
+  - statefulsets
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - get
+  - list
