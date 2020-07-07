@@ -49,4 +49,3 @@ $ oc apply -f sa/
 
 
 
-test
