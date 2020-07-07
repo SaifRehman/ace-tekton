@@ -14,7 +14,7 @@ spec:
   - apiVersion: tekton.dev/v1alpha1
     kind: PipelineRun
     metadata:
-      name: build-and-deploy-pipeline-kaniko-nw
+      generateName: tekton-pipelinerun-build-and-deploy-
       namespace: bma-dev
       labels:
         tekton.dev/pipeline: build-and-deploy-pipeline-kaniko
