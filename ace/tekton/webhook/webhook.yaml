@@ -27,7 +27,7 @@ spec:
         - name: imageUrl
           value: image-registry.openshift-image-registry.svc:5000/bma-dev/ace123
         - name: imageTag
-          value: new
+          value: $(params.REVISION)
       pipelineRef:
         name: build-and-deploy-pipeline-kaniko
       resources:
