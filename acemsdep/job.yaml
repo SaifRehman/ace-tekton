@@ -2,12 +2,12 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   labels:
-    app.kubernetes.io/instance: guguace
+    app.kubernetes.io/instance: try123
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: guguace
-  name: guguace-ibm-ace-server-icp4i-prod-config-gen
+    release: try123
+  name: try123-ibm-ace-server-icp4i-prod-config-gen
   namespace: bma-dev
 spec:
   activeDeadlineSeconds: 600
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        job-name: guguace-ibm-ace-server-icp4i-prod-config-gen
+        job-name: try123-ibm-ace-server-icp4i-prod-config-gen
     spec:
       affinity:
         nodeAffinity:
@@ -56,7 +56,7 @@ spec:
         terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /server/
-          name: guguace-ibm-ace-server-icp4i-prod-create-configurator-config
+          name: try123-ibm-ace-server-icp4i-prod-create-configurator-config
       dnsPolicy: ClusterFirst
       restartPolicy: Never
       schedulerName: default-scheduler
@@ -64,12 +64,12 @@ spec:
         fsGroup: 1001
         runAsNonRoot: true
         runAsUser: 1001
-      serviceAccount: guguace-ibm-ace-server-icp4i-prod-serviceaccount
-      serviceAccountName: guguace-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccount: try123-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccountName: try123-ibm-ace-server-icp4i-prod-serviceaccount
       terminationGracePeriodSeconds: 30
       volumes:
       - configMap:
           defaultMode: 365
-          name: guguace-ibm-ace-server-icp4i-prod-create-configurator-config
-        name: guguace-ibm-ace-server-icp4i-prod-create-configurator-config
+          name: try123-ibm-ace-server-icp4i-prod-create-configurator-config
+        name: try123-ibm-ace-server-icp4i-prod-create-configurator-config
 

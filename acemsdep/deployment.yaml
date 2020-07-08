@@ -5,15 +5,15 @@ metadata:
     appconnectenterprise: icp4i
     appconnectenterpriseContentUrl: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Test
     deployment.kubernetes.io/revision: "1"
-    serverName: guguace
+    serverName: try123
   generation: 1
   labels:
-    app.kubernetes.io/instance: guguace
+    app.kubernetes.io/instance: try123
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: guguace
-  name: guguace-ibm-ace-server-icp4i-prod
+    release: try123
+  name: try123-ibm-ace-server-icp4i-prod
   namespace: bma-dev
 spec:
   progressDeadlineSeconds: 600
@@ -21,11 +21,11 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app.kubernetes.io/instance: guguace
+      app.kubernetes.io/instance: try123
       app.kubernetes.io/managed-by: Tiller
       app.kubernetes.io/name: ibm-ace-server-icp4i-prod
       helm.sh/chart: ibm-ace-server-icp4i-prod
-      release: guguace
+      release: try123
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -42,12 +42,12 @@ spec:
         productVersion: 11.0.0.8
       creationTimestamp: null
       labels:
-        app.kubernetes.io/instance: guguace
+        app.kubernetes.io/instance: try123
         app.kubernetes.io/managed-by: Tiller
         app.kubernetes.io/name: ibm-ace-server-icp4i-prod
         helm.sh/chart: ibm-ace-server-icp4i-prod
-        release: guguace
-      name: guguace-ibm-ace-server-icp4i-prod
+        release: try123
+      name: try123-ibm-ace-server-icp4i-prod
     spec:
       affinity:
         nodeAffinity:
@@ -67,9 +67,9 @@ spec:
         - name: DEV_QMGR
           value: "false"
         - name: ACE_SERVER_NAME
-          value: guguace
+          value: try123
         - name: SERVICE_NAME
-          value: guguace-ibm-ace-server-icp4i-prod
+          value: try123-ibm-ace-server-icp4i-prod
         - name: DEFAULT_CONTENT_SERVER
           value: "true"
         - name: ACE_CONTENT_SERVER_URL
@@ -85,27 +85,27 @@ spec:
         - name: ACE_ENABLE_OPEN_TRACING
           value: "false"
         - name: ACE_HTTP_ROUTE_NAME
-          value: guguace-http
+          value: try123-http
         - name: ACE_HTTPS_ROUTE_NAME
-          value: guguace-https
+          value: try123-https
         - name: ACE_ENDPOINT_TYPE
           value: http
         - name: ACE_KEYSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
               key: keystorePassword
-              name: guguace-ibm-ace-server-icp4i-prod-configuration
+              name: try123-ibm-ace-server-icp4i-prod-configuration
               optional: true
         - name: ACE_TRUSTSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
               key: truststorePassword
-              name: guguace-ibm-ace-server-icp4i-prod-configuration
+              name: try123-ibm-ace-server-icp4i-prod-configuration
               optional: true
         - name: ACE_DEFAULT_APPLICATION_NAME
         - name: ACE_ADMIN_SERVER_SECURITY
           value: "false"
-        image: image-registry.openshift-image-registry.svc:5000/bma-dev/ace11002mqc91ms2:latest
+        image: image-registry.openshift-image-registry.svc:5000/bma-dev/ace:latest
         imagePullPolicy: IfNotPresent
         # livenessProbe:
         #   exec:
@@ -116,7 +116,7 @@ spec:
         #   periodSeconds: 10
         #   successThreshold: 1
         #   timeoutSeconds: 5
-        name: guguace-ibm-ace-server-icp4i-prod
+        name: try123-ibm-ace-server-icp4i-prod
         ports:
         - containerPort: 7600
           name: webui
@@ -181,14 +181,14 @@ spec:
       initContainers:
       - args:
         - -c
-        - until [ $(/usr/local/bin/kubectl get job guguace-ibm-ace-server-icp4i-prod-config-gen
+        - until [ $(/usr/local/bin/kubectl get job try123-ibm-ace-server-icp4i-prod-config-gen
           -o jsonpath="{.status.succeeded}") = 1 ]; do sleep 1; done && echo "WebUsers
           Created"
         command:
         - sh
         image: cp.icr.io/cp/icp4i/ace/ibm-acecc-configurator-prod:11.0.0.8-r1-amd64
         imagePullPolicy: IfNotPresent
-        name: guguace-ibm-ace-server-icp4i-prod-init
+        name: try123-ibm-ace-server-icp4i-prod-init
         resources:
           limits:
             cpu: 500m
@@ -213,8 +213,8 @@ spec:
         fsGroup: 1001
         runAsNonRoot: true
         runAsUser: 1000
-      serviceAccount: guguace-ibm-ace-server-icp4i-prod-serviceaccount
-      serviceAccountName: guguace-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccount: try123-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccountName: try123-ibm-ace-server-icp4i-prod-serviceaccount
       terminationGracePeriodSeconds: 30
       volumes:
       - name: webusers
@@ -232,7 +232,7 @@ spec:
           - key: auditusers
             path: audit-users.txt
           optional: true
-          secretName: guguace-ibm-ace-server-icp4i-prod
+          secretName: try123-ibm-ace-server-icp4i-prod
       - name: odbcini
         secret:
           defaultMode: 420
@@ -240,7 +240,7 @@ spec:
           - key: odbcini
             path: odbc.ini
           optional: true
-          secretName: guguace-ibm-ace-server-icp4i-prod-configuration
+          secretName: try123-ibm-ace-server-icp4i-prod-configuration
       - name: extensions
         secret:
           defaultMode: 420
@@ -248,7 +248,7 @@ spec:
           - key: extensions
             path: extensions.zip
           optional: true
-          secretName: guguace-ibm-ace-server-icp4i-prod-configuration
+          secretName: try123-ibm-ace-server-icp4i-prod-configuration
       - name: agent
         secret:
           defaultMode: 420
@@ -262,7 +262,7 @@ spec:
           - key: switch
             path: switch.json
           optional: true
-          secretName: guguace-ibm-ace-server-icp4i-prod-configuration
+          secretName: try123-ibm-ace-server-icp4i-prod-configuration
       - name: policy
         secret:
           defaultMode: 420
@@ -272,7 +272,7 @@ spec:
           - key: policyDescriptor
             path: policy.descriptor
           optional: true
-          secretName: guguace-ibm-ace-server-icp4i-prod-configuration
+          secretName: try123-ibm-ace-server-icp4i-prod-configuration
       - name: serverconf
         secret:
           defaultMode: 420
@@ -280,7 +280,7 @@ spec:
           - key: serverconf
             path: server.conf.yaml
           optional: true
-          secretName: guguace-ibm-ace-server-icp4i-prod-configuration
+          secretName: try123-ibm-ace-server-icp4i-prod-configuration
       - name: setdbparms
         secret:
           defaultMode: 420
@@ -288,7 +288,7 @@ spec:
           - key: setdbparms
             path: setdbparms.txt
           optional: true
-          secretName: guguace-ibm-ace-server-icp4i-prod-configuration
+          secretName: try123-ibm-ace-server-icp4i-prod-configuration
       - name: ssl
         secret:
           defaultMode: 420
@@ -300,7 +300,7 @@ spec:
           - key: tls.crt
             path: tls.crt.pem
           optional: true
-          secretName: guguace-ibm-ace-server-icp4i-prod-configuration
+          secretName: try123-ibm-ace-server-icp4i-prod-configuration
       - name: contentservertls
         secret:
           defaultMode: 420

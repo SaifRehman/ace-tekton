@@ -12,7 +12,7 @@ spec:
     - name: pathToYamlFile
       value: acemsdep/
     - name: imageUrl
-      value: image-registry.openshift-image-registry.svc:5000/bma-dev/ace11002mqc91ms2
+      value: image-registry.openshift-image-registry.svc:5000/bma-dev/ace
     - name: imageTag
       value: latest
   pipelineRef:

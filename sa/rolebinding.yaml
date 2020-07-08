@@ -2,14 +2,14 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
-    release: guguace
-  name: guguace-ibm-ace-server-icp4i-prod-rolebinding
+    release: try123
+  name: try123-ibm-ace-server-icp4i-prod-rolebinding
   namespace: bma-dev
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: guguace-ibm-ace-server-icp4i-prod-role
+  name: try123-ibm-ace-server-icp4i-prod-role
 subjects:
 - kind: ServiceAccount
-  name: guguace-ibm-ace-server-icp4i-prod-serviceaccount
+  name: try123-ibm-ace-server-icp4i-prod-serviceaccount
   namespace: bma-dev
