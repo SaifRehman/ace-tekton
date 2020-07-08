@@ -2,8 +2,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
-    release: try123
-  name: try123-ibm-ace-server-icp4i-prod-role
+    release: saif121
+  name: saif121-ibm-ace-server-icp4i-prod-role
   namespace: bma-dev
 rules:
 - apiGroups:
