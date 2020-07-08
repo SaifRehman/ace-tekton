@@ -1,0 +1,456 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    appconnectenterprise: icp4i
+    appconnectenterpriseContentUrl: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Test
+    deployment.kubernetes.io/revision: "1"
+    serverName: gugu1
+  creationTimestamp: 2020-07-08T14:56:33Z
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: gugu1
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+    helm.sh/chart: ibm-ace-server-icp4i-prod
+    release: gugu1
+  name: gugu1-ibm-ace-server-icp4i-prod
+  namespace: bma-dev
+  resourceVersion: "34465118"
+  selfLink: /apis/extensions/v1beta1/namespaces/bma-dev/deployments/gugu1-ibm-ace-server-icp4i-prod
+  uid: b2cd9c43-780f-4fe3-a593-b973dc82e31a
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: gugu1
+      app.kubernetes.io/managed-by: Tiller
+      app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+      helm.sh/chart: ibm-ace-server-icp4i-prod
+      release: gugu1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cloudpakName: IBM Cloud Pak for Integration
+        cloudpakVersion: 2019.4.1
+        cloudpakid: c8b82d189e7545f0892db9ef2731b90d
+        productID: 606f1a9feb4f4cbc85b17a637f6a6b24
+        productName: IBM Cloud Pak for Integration - IBM App Connect Enterprise (Chargeable)
+        productVersion: 11.0.0.8
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: gugu1
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/name: ibm-ace-server-icp4i-prod
+        helm.sh/chart: ibm-ace-server-icp4i-prod
+        release: gugu1
+      name: gugu1-ibm-ace-server-icp4i-prod
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+      containers:
+      - env:
+        - name: LICENSE
+          value: accept
+        - name: USE_QMGR
+          value: "false"
+        - name: DEV_QMGR
+          value: "false"
+        - name: ACE_SERVER_NAME
+          value: gugu1
+        - name: SERVICE_NAME
+          value: gugu1-ibm-ace-server-icp4i-prod
+        - name: DEFAULT_CONTENT_SERVER
+          value: "true"
+        - name: ACE_CONTENT_SERVER_URL
+          value: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Test
+        - name: ACE_CONTENT_SERVER_NAME
+          value: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+        - name: ACE_CONTENT_SERVER_TOKEN
+          value: 1e410185-7307-430a-a293-e1fd95be2995
+        - name: LOG_FORMAT
+          value: basic
+        - name: ACE_ENABLE_METRICS
+          value: "true"
+        - name: ACE_ENABLE_OPEN_TRACING
+          value: "false"
+        - name: ACE_HTTP_ROUTE_NAME
+          value: gugu1-http
+        - name: ACE_HTTPS_ROUTE_NAME
+          value: gugu1-https
+        - name: ACE_ENDPOINT_TYPE
+          value: http
+        - name: ACE_KEYSTORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: keystorePassword
+              name: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+              optional: true
+        - name: ACE_TRUSTSTORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: truststorePassword
+              name: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+              optional: true
+        - name: ACE_DEFAULT_APPLICATION_NAME
+        - name: ACE_ADMIN_SERVER_SECURITY
+          value: "false"
+        image: cp.icr.io/cp/icp4i/ace/ibm-ace-server-prod:11.0.0.8-r1-amd64
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - chkacehealthy
+          failureThreshold: 1
+          initialDelaySeconds: 360
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: gugu1-ibm-ace-server-icp4i-prod
+        ports:
+        - containerPort: 7600
+          name: webui
+          protocol: TCP
+        - containerPort: 7800
+          name: ace-http
+          protocol: TCP
+        - containerPort: 7843
+          name: ace-https
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - chkaceready
+          failureThreshold: 1
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 3
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            add:
+            - CHOWN
+            - FOWNER
+            - DAC_OVERRIDE
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /home/aceuser/initial-config/webusers
+          name: webusers
+        - mountPath: /home/aceuser/initial-config/odbcini
+          name: odbcini
+        - mountPath: /home/aceuser/initial-config/policy
+          name: policy
+        - mountPath: /home/aceuser/initial-config/serverconf
+          name: serverconf
+        - mountPath: /home/aceuser/initial-config/setdbparms
+          name: setdbparms
+        - mountPath: /home/aceuser/initial-config/extensions
+          name: extensions
+        - mountPath: /home/aceuser/initial-config/agent
+          name: agent
+        - mountPath: /home/aceuser/initial-config/ssl
+          name: ssl
+        - mountPath: /home/aceuser/ssl
+          name: contentservertls
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /home/aceuser/ace-server
+          name: workdir
+      - env:
+        - name: ACE_VERSION
+        - name: bunyan__logfile__filename
+          value: /opt/ibm/app/ace-server/log/integration_server.gugu1.designer_flows.txt
+        - name: DESIGNER_FLOWS_OPERATION_MODE
+          value: all
+        image: cp.icr.io/cp/icp4i/ace/ibm-ace-designer-flows-prod:11.0.0.8-r1-amd64
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /readiness/ready.sh
+          failureThreshold: 1
+          initialDelaySeconds: 360
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: gugu1-ibm-ace-server-icp4i-prod-designer-flows
+        readinessProbe:
+          exec:
+            command:
+            - /readiness/ready.sh
+          failureThreshold: 1
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 3
+        resources:
+          limits:
+            cpu: "1"
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 32Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /opt/ibm/app/ace-server
+          name: workdir
+      - env:
+        - name: ACE_VERSION
+        - name: CONNECTOR_CREDENTIAL
+          value: /opt/ibm/app/credentials
+        - name: AGENTX_FILE_PATH
+          value: /opt/ibm/app/agentx
+        - name: bunyan__logfile__filename
+          value: /opt/ibm/app/ace-server/log/integration_server.gugu1.connectors.txt
+        image: cp.icr.io/cp/icp4i/ace/ibm-ace-lcp-prod:11.0.0.8-r1-amd64
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /readiness/readyLCP.sh
+          failureThreshold: 1
+          initialDelaySeconds: 360
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: gugu1-ibm-ace-server-icp4i-prod-connectors
+        readinessProbe:
+          exec:
+            command:
+            - /readiness/readyLCP.sh
+          failureThreshold: 1
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 3
+        resources:
+          limits:
+            cpu: "1"
+            memory: 768Mi
+          requests:
+            cpu: 150m
+            memory: 200Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /opt/ibm/app/credentials
+          name: credentials
+        - mountPath: /opt/ibm/app/agentx
+          name: agent
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /opt/ibm/app/ace-server
+          name: workdir
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - -c
+        - until [ $(/usr/local/bin/kubectl get job gugu1-ibm-ace-server-icp4i-prod-config-gen
+          -o jsonpath="{.status.succeeded}") = 1 ]; do sleep 1; done && echo "WebUsers
+          Created"
+        command:
+        - sh
+        image: cp.icr.io/cp/icp4i/ace/ibm-acecc-configurator-prod:11.0.0.8-r1-amd64
+        imagePullPolicy: IfNotPresent
+        name: gugu1-ibm-ace-server-icp4i-prod-init
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1028Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1001
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 1001
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccount: gugu1-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccountName: gugu1-ibm-ace-server-icp4i-prod-serviceaccount
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: webusers
+        secret:
+          defaultMode: 420
+          items:
+          - key: adminusers
+            path: admin-users.txt
+          - key: operatorusers
+            path: operator-users.txt
+          - key: viewerusers
+            path: viewer-users.txt
+          - key: editorusers
+            path: editor-users.txt
+          - key: auditusers
+            path: audit-users.txt
+          optional: true
+          secretName: gugu1-ibm-ace-server-icp4i-prod
+      - name: odbcini
+        secret:
+          defaultMode: 420
+          items:
+          - key: odbcini
+            path: odbc.ini
+          optional: true
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+      - name: extensions
+        secret:
+          defaultMode: 420
+          items:
+          - key: extensions
+            path: extensions.zip
+          optional: true
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+      - name: agent
+        secret:
+          defaultMode: 420
+          items:
+          - key: agentc
+            path: agentc.json
+          - key: agentp
+            path: agentp.json
+          - key: agentx
+            path: agentx.json
+          - key: switch
+            path: switch.json
+          optional: true
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+      - name: policy
+        secret:
+          defaultMode: 420
+          items:
+          - key: policy
+            path: default.policyxml
+          - key: policyDescriptor
+            path: policy.descriptor
+          optional: true
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+      - name: serverconf
+        secret:
+          defaultMode: 420
+          items:
+          - key: serverconf
+            path: server.conf.yaml
+          optional: true
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+      - name: setdbparms
+        secret:
+          defaultMode: 420
+          items:
+          - key: setdbparms
+            path: setdbparms.txt
+          optional: true
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+      - name: ssl
+        secret:
+          defaultMode: 420
+          items:
+          - key: ca.crt
+            path: ca.crt.pem
+          - key: tls.key
+            path: tls.key.pem
+          - key: tls.crt
+            path: tls.crt.pem
+          optional: true
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+      - name: contentservertls
+        secret:
+          defaultMode: 420
+          items:
+          - key: contentServerCACert
+            path: cacert.pem
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+      - name: credentials
+        secret:
+          defaultMode: 420
+          items:
+          - key: credentials
+            path: credentials.yaml
+          optional: true
+          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+      - emptyDir: {}
+        name: tmp
+      - emptyDir: {}
+        name: workdir
+status:
+  availableReplicas: 3
+  conditions:
+  - lastTransitionTime: 2020-07-08T14:57:04Z
+    lastUpdateTime: 2020-07-08T14:57:04Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2020-07-08T14:56:33Z
+    lastUpdateTime: 2020-07-08T14:57:08Z
+    message: ReplicaSet "gugu1-ibm-ace-server-icp4i-prod-85db85c4df" has successfully
+      progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 3
+  replicas: 3
+  updatedReplicas: 3
