@@ -105,7 +105,7 @@ spec:
         - name: ACE_DEFAULT_APPLICATION_NAME
         - name: ACE_ADMIN_SERVER_SECURITY
           value: "false"
-        image: image-registry.openshift-image-registry.svc:5000/bma-dev/ace123:latest
+        image: __IMAGE__
         imagePullPolicy: IfNotPresent
         # livenessProbe:
         #   exec:
