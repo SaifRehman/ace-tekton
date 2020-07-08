@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     appconnectenterprise: icp4i
-    appconnectenterpriseContentUrl: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Microservice3
+    appconnectenterpriseContentUrl: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Test
     deployment.kubernetes.io/revision: "1"
     serverName: guguace
   generation: 1
@@ -73,7 +73,7 @@ spec:
         - name: DEFAULT_CONTENT_SERVER
           value: "true"
         - name: ACE_CONTENT_SERVER_URL
-          value: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Microservice3
+          value: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Test
         - name: ACE_CONTENT_SERVER_NAME
           value: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
         - name: ACE_CONTENT_SERVER_TOKEN
