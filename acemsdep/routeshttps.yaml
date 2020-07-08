@@ -4,15 +4,15 @@ metadata:
   annotations:
     openshift.io/host.generated: "true"
   labels:
-    app.kubernetes.io/instance: tektonace
+    app.kubernetes.io/instance: guguace
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: tektonace
-  name: tektonace-https
+    release: guguace
+  name: guguace-https
   namespace: bma-dev
 spec:
-  host: tektonace-https-bma-dev.mycluster-336573-7668c7cb8fc5e368809b49af77a1e9c2-0000.eu-gb.containers.appdomain.cloud
+  host: guguace-https-bma-dev.mycluster-336573-7668c7cb8fc5e368809b49af77a1e9c2-0000.eu-gb.containers.appdomain.cloud
   port:
     targetPort: ace-https
   tls:
@@ -20,6 +20,6 @@ spec:
     termination: passthrough
   to:
     kind: Service
-    name: tektonace-ibm-ace-server-icp4i-prod
+    name: guguace-ibm-ace-server-icp4i-prod
     weight: 100
   wildcardPolicy: None

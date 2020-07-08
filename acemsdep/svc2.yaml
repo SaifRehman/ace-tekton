@@ -5,12 +5,12 @@ metadata:
     prometheus.io/port: "9483"
     prometheus.io/scrape: "true"
   labels:
-    app.kubernetes.io/instance: tektonace
+    app.kubernetes.io/instance: guguace
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: tektonace
-  name: tektonace-ibm-ace-server-icp4i-prod-ace-metrics
+    release: guguace
+  name: guguace-ibm-ace-server-icp4i-prod-ace-metrics
   namespace: bma-dev
 spec:
   ports:
@@ -18,10 +18,10 @@ spec:
     protocol: TCP
     targetPort: 9483
   selector:
-    app.kubernetes.io/instance: tektonace
+    app.kubernetes.io/instance: guguace
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: tektonace
+    release: guguace
   sessionAffinity: None
   type: ClusterIP

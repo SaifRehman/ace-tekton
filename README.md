@@ -45,5 +45,3 @@ $ oc apply -f sa/
 2. Select pipeline, and create on create pipeline 
 
 ![alt text](1.png)
-
-ag

@@ -2,8 +2,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
-    release: tektonace
-  name: tektonace-ibm-ace-server-icp4i-prod-role
+    release: guguace
+  name: guguace-ibm-ace-server-icp4i-prod-role
   namespace: bma-dev
 rules:
 - apiGroups:
