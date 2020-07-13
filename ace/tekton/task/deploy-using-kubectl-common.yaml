@@ -57,7 +57,7 @@ spec:
         - "-i"
         - "-e"
         - "s;__NAME__;$(inputs.params.replaceName);g"
-        - "/workspace/git-source/acemsdep/routeshhtp.yaml"
+        - "/workspace/git-source/acemsdep/routeshttp.yaml"
     - name: update-routeshttps-yaml
       image: alpine
       command: ["sed"]
