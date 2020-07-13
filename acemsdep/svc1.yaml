@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: saif121
+    app.kubernetes.io/instance: __NAME__
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: saif121
-  name: saif121-ibm-ace-server-icp4i-prod
+    release: __NAME__
+  name: __NAME__-ibm-ace-server-icp4i-prod
   namespace: bma-dev
 spec:
   ports:
@@ -24,9 +24,9 @@ spec:
     protocol: TCP
     targetPort: 7843
   selector:
-    app.kubernetes.io/instance: saif121
+    app.kubernetes.io/instance: __NAME__
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: saif121
+    release: __NAME__
   type: ClusterIP

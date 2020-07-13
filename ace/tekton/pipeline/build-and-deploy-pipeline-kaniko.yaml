@@ -16,6 +16,8 @@ spec:
       description: Url of image repository
     - name: imageTag
       description: Tag to apply to the built image
+    - name: replaceName
+      description: replace name of all yamls
   tasks:
   - name: source-to-image-kaniko
     taskRef:
@@ -43,6 +45,8 @@ spec:
         value: "$(params.imageUrl)"
       - name: imageTag
         value: "$(params.imageTag)"
+      - name: replaceName
+        value: "$(params.replaceName)"
     resources:
       inputs:
         - name: git-source

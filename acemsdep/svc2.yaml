@@ -5,12 +5,12 @@ metadata:
     prometheus.io/port: "9483"
     prometheus.io/scrape: "true"
   labels:
-    app.kubernetes.io/instance: saif121
+    app.kubernetes.io/instance: __NAME__
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: saif121
-  name: saif121-ibm-ace-server-icp4i-prod-ace-metrics
+    release: __NAME__
+  name: __NAME__-ibm-ace-server-icp4i-prod-ace-metrics
   namespace: bma-dev
 spec:
   ports:
@@ -18,10 +18,10 @@ spec:
     protocol: TCP
     targetPort: 9483
   selector:
-    app.kubernetes.io/instance: saif121
+    app.kubernetes.io/instance: __NAME__
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: saif121
+    release: __NAME__
   sessionAffinity: None
   type: ClusterIP

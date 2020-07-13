@@ -2,12 +2,12 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   labels:
-    app.kubernetes.io/instance: saif121
+    app.kubernetes.io/instance: __NAME__
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/name: ibm-ace-server-icp4i-prod
     helm.sh/chart: ibm-ace-server-icp4i-prod
-    release: saif121
-  name: saif121-ibm-ace-server-icp4i-prod-config-gen
+    release: __NAME__
+  name: __NAME__-ibm-ace-server-icp4i-prod-config-gen
   namespace: bma-dev
 spec:
   activeDeadlineSeconds: 600
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        job-name: saif121-ibm-ace-server-icp4i-prod-config-gen
+        job-name: __NAME__-ibm-ace-server-icp4i-prod-config-gen
     spec:
       affinity:
         nodeAffinity:
@@ -56,7 +56,7 @@ spec:
         terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /server/
-          name: saif121-ibm-ace-server-icp4i-prod-create-configurator-config
+          name: __NAME__-ibm-ace-server-icp4i-prod-create-configurator-config
       dnsPolicy: ClusterFirst
       restartPolicy: Never
       schedulerName: default-scheduler
@@ -64,12 +64,12 @@ spec:
         fsGroup: 1001
         runAsNonRoot: true
         runAsUser: 1001
-      serviceAccount: saif121-ibm-ace-server-icp4i-prod-serviceaccount
-      serviceAccountName: saif121-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccount: __NAME__-ibm-ace-server-icp4i-prod-serviceaccount
+      serviceAccountName: __NAME__-ibm-ace-server-icp4i-prod-serviceaccount
       terminationGracePeriodSeconds: 30
       volumes:
       - configMap:
           defaultMode: 365
-          name: saif121-ibm-ace-server-icp4i-prod-create-configurator-config
-        name: saif121-ibm-ace-server-icp4i-prod-create-configurator-config
+          name: __NAME__-ibm-ace-server-icp4i-prod-create-configurator-config
+        name: __NAME__-ibm-ace-server-icp4i-prod-create-configurator-config
 
