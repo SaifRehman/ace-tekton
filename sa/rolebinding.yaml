@@ -2,14 +2,14 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
-    release: saif121
-  name: saif121-ibm-ace-server-icp4i-prod-rolebinding
+    release: acedev
+  name: acedev-ibm-ace-server-icp4i-prod-rolebinding
   namespace: bma-dev
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: saif121-ibm-ace-server-icp4i-prod-role
+  name: acedev-ibm-ace-server-icp4i-prod-role
 subjects:
 - kind: ServiceAccount
-  name: saif121-ibm-ace-server-icp4i-prod-serviceaccount
+  name: acedev-ibm-ace-server-icp4i-prod-serviceaccount
   namespace: bma-dev

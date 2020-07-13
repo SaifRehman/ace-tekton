@@ -51,4 +51,4 @@ spec:
   - name: NAMESPACE
     value: bma-dev
   - name: NAME
-    value: saiftektonace
+    value: acedev
