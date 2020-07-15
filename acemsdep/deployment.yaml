@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     appconnectenterprise: icp4i
-    appconnectenterpriseContentUrl: https://ibm-ace-ace-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Transformation_ESQL
+    appconnectenterpriseContentUrl: https://acedashboard-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Transformation_ESQL
     deployment.kubernetes.io/revision: "1"
     serverName: __NAME__
   generation: 1
@@ -72,7 +72,7 @@ spec:
         - name: DEFAULT_CONTENT_SERVER
           value: "true"
         - name: ACE_CONTENT_SERVER_URL
-          value: https://ibm-ace-ace-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Transformation_ESQL
+          value: https://acedashboard-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Transformation_ESQL
         - name: ACE_CONTENT_SERVER_NAME
           value: ibm-ace-ace-ibm-ace-dashboard-icp4i-prod
         - name: ACE_CONTENT_SERVER_TOKEN
