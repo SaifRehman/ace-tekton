@@ -306,4 +306,4 @@ spec:
           items:
           - key: contentServerCACert
             path: cacert.pem
-          secretName: ibm-ace-ace-ibm-ace-dashboard-icp4i-prod
+          secretName: acedashboard-ibm-ace-dashboard-icp4i-prod
