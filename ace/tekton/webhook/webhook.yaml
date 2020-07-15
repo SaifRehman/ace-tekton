@@ -17,7 +17,6 @@ spec:
     kind: PipelineRun
     metadata:
       generateName: tekton-pipelinerun-build-and-deploy-
-      namespace: bma-dev
       labels:
         tekton.dev/pipeline: build-and-deploy-pipeline-kaniko
     spec:
@@ -27,7 +26,7 @@ spec:
         - name: pathToYamlFile
           value: acemsdep/
         - name: imageUrl
-          value: image-registry.openshift-image-registry.svc:5000/bma-dev/ace123
+          value: image-registry.openshift-image-registry.svc:5000/ace/ace123
         - name: imageTag
           value: $(params.REVISION)
         - name: replaceName
@@ -49,6 +48,6 @@ spec:
   - name: REVISION
     value: $(body.head_commit.id)
   - name: NAMESPACE
-    value: bma-dev
+    value: ace
   - name: NAME
     value: acedev
