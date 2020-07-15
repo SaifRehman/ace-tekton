@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     appconnectenterprise: icp4i
-    appconnectenterpriseContentUrl: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Transformation_ESQL
+    appconnectenterpriseContentUrl: https://ibm-ace-ace-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Transformation_ESQL
     deployment.kubernetes.io/revision: "1"
     serverName: __NAME__
   generation: 1
@@ -72,9 +72,9 @@ spec:
         - name: DEFAULT_CONTENT_SERVER
           value: "true"
         - name: ACE_CONTENT_SERVER_URL
-          value: https://ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Transformation_ESQL
+          value: https://ibm-ace-ace-ibm-ace-dashboard-icp4i-prod:3443/v1/directories/Transformation_ESQL
         - name: ACE_CONTENT_SERVER_NAME
-          value: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+          value: ibm-ace-ace-ibm-ace-dashboard-icp4i-prod
         - name: ACE_CONTENT_SERVER_TOKEN
           value: 0c867f94-e6ab-4611-8799-415f12260d57
         - name: LOG_FORMAT
@@ -306,4 +306,4 @@ spec:
           items:
           - key: contentServerCACert
             path: cacert.pem
-          secretName: ibm-ace-bma-dev-ibm-ace-dashboard-icp4i-prod
+          secretName: ibm-ace-ace-ibm-ace-dashboard-icp4i-prod

@@ -11,4 +11,3 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: acedev-ibm-ace-server-icp4i-prod-serviceaccount
-  namespace: bma-dev
