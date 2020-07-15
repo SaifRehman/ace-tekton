@@ -2,8 +2,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
-    release: acedev
-  name: acedev-ibm-ace-server-icp4i-prod-role
+    release: acenew
+  name: acenew-ibm-ace-server-icp4i-prod-role
 rules:
 - apiGroups:
   - ""

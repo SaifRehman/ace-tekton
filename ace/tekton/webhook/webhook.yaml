@@ -50,4 +50,4 @@ spec:
   - name: NAMESPACE
     value: ace
   - name: NAME
-    value: acedev
+    value: acenew
