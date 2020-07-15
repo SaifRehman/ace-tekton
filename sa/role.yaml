@@ -4,7 +4,6 @@ metadata:
   labels:
     release: acedev
   name: acedev-ibm-ace-server-icp4i-prod-role
-  namespace: bma-dev
 rules:
 - apiGroups:
   - ""

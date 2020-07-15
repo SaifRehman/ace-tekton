@@ -11,7 +11,6 @@ metadata:
     helm.sh/chart: ibm-ace-server-icp4i-prod
     release: __NAME__
   name: __NAME__-ibm-ace-server-icp4i-prod-ace-metrics
-  namespace: bma-dev
 spec:
   ports:
   - port: 9483

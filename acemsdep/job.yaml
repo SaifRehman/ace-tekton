@@ -8,7 +8,6 @@ metadata:
     helm.sh/chart: ibm-ace-server-icp4i-prod
     release: __NAME__
   name: __NAME__-ibm-ace-server-icp4i-prod-config-gen
-  namespace: bma-dev
 spec:
   activeDeadlineSeconds: 600
   backoffLimit: 6

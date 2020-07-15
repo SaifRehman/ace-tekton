@@ -4,7 +4,6 @@ metadata:
   labels:
     release: acedev
   name: acedev-ibm-ace-server-icp4i-prod-rolebinding
-  namespace: bma-dev
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

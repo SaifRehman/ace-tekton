@@ -14,7 +14,6 @@ metadata:
     helm.sh/chart: ibm-ace-server-icp4i-prod
     release: __NAME__
   name: __NAME__-ibm-ace-server-icp4i-prod
-  namespace: bma-dev
 spec:
   progressDeadlineSeconds: 600
   replicas: 1

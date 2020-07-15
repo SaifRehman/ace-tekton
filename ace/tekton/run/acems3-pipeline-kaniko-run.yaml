@@ -2,7 +2,6 @@ apiVersion: tekton.dev/v1alpha1
 kind: PipelineRun
 metadata:
   name: build-and-deploy-pipeline-kaniko-nw
-  namespace: bma-dev
   labels:
     tekton.dev/pipeline: build-and-deploy-pipeline-kaniko
 spec:
@@ -12,7 +11,7 @@ spec:
     - name: pathToYamlFile
       value: acemsdep/
     - name: imageUrl
-      value: image-registry.openshift-image-registry.svc:5000/bma-dev/ace
+      value: image-registry.openshift-image-registry.svc:5000/ace/ace
     - name: imageTag
       value: latest
   pipelineRef:

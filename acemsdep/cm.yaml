@@ -41,4 +41,3 @@ metadata:
     helm.sh/chart: ibm-ace-server-icp4i-prod
     release: __NAME__
   name: __NAME__-ibm-ace-server-icp4i-prod-create-configurator-config
-  namespace: bma-dev
