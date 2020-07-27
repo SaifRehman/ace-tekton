@@ -26,7 +26,7 @@ spec:
         - name: pathToYamlFile
           value: acemsdep/
         - name: imageUrl
-          value: image-registry.openshift-image-registry.svc:5000/ace/ace123
+          value: image-registry.openshift-image-registry.svc:5000/bma-dev/ace123
         - name: imageTag
           value: $(params.REVISION)
         - name: replaceName
@@ -48,6 +48,6 @@ spec:
   - name: REVISION
     value: $(body.head_commit.id)
   - name: NAMESPACE
-    value: ace
+    value: bma-dev
   - name: NAME
     value: acenew
