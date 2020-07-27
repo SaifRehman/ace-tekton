@@ -80,5 +80,5 @@ spec:
         - "apply"
         - "-f"
         - "/workspace/git-source/$(inputs.params.pathToYamlFile)"
-        - "n"
+        - "-n"
         - "bma-qa"
