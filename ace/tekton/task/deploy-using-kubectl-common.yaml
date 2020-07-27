@@ -18,6 +18,12 @@ spec:
       - name: replaceName
         description: replace name of all yamls
   steps:
+    - name: copy-deployment
+      image: alpine
+      command: ["cp"]
+      args:
+        - "/workspace/git-source/acemsdep/deployment.yaml"
+        - "/workspace/git-source/"
     - name: update-yaml
       image: alpine
       command: ["sed"]
@@ -74,13 +80,33 @@ spec:
         - "-e"
         - "s;__NAME__;$(inputs.params.replaceName);g"
         - "/workspace/git-source/acemsdep/svc2.yaml"
-    - name: run-kubectl
+    - name: run-kubectl-deployment
       image: lachlanevenson/k8s-kubectl
       command: ["kubectl"]
       args:
         - "apply"
         - "-f"
         - "/workspace/git-source/$(inputs.params.pathToYamlFile)"
+    - name: remove-deployment
+      image: alpine
+      command: ["rm"]
+      args:
+        - "-rf"
+        - "/workspace/git-source/acemsdep/deployment.yaml"
+    - name: cp-deployment
+      image: alpine
+      command: ["cp"]
+      args:
+        - "/workspace/git-source/deployment.yaml"
+        - "/workspace/git-source/acemsdep/"
+    - name: update-yaml-different
+      image: alpine
+      command: ["sed"]
+      args:
+        - "-i"
+        - "-e"
+        - "s;__IMAGE__;$(inputs.params.imageUrl):$(inputs.params.imageTag);g"
+        - "/workspace/git-source/acemsdep/deployment.yaml"
     - name: update-deployment-instance-diff-yaml
       image: alpine
       command: ["sed"]
