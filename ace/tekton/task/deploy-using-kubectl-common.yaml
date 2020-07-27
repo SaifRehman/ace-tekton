@@ -115,6 +115,14 @@ spec:
         - "-e"
         - "s;__INSTANCE__;ibm-ace-bma-qa;g"
         - "/workspace/git-source/acemsdep/deployment.yaml"
+    - name: update-deployment--diff-yaml
+      image: alpine
+      command: ["sed"]
+      args:
+        - "-i"
+        - "-e"
+        - "s;__NAME__;$(inputs.params.replaceName);g"
+        - "/workspace/git-source/acemsdep/deployment.yaml"
     - name: run-kubectl-namespace
       image: lachlanevenson/k8s-kubectl
       command: ["kubectl"]
