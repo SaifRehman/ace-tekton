@@ -89,3 +89,12 @@ spec:
         - "apply"
         - "-f"
         - "/workspace/git-source/$(inputs.params.pathToYamlFile)"
+    - name: run-kubectl
+      image: lachlanevenson/k8s-kubectl
+      command: ["kubectl"]
+      args:
+        - "apply"
+        - "-f"
+        - "/workspace/git-source/$(inputs.params.pathToYamlFile)"
+        - "-n"
+        - "bma-qa"
