@@ -50,22 +50,6 @@ spec:
         - "-e"
         - "s;__NAME__;$(inputs.params.replaceName);g"
         - "/workspace/git-source/acemsdep/job.yaml"
-    - name: update-routeshttp-yaml
-      image: alpine
-      command: ["sed"]
-      args:
-        - "-i"
-        - "-e"
-        - "s;__NAME__;$(inputs.params.replaceName);g"
-        - "/workspace/git-source/acemsdep/routeshttp.yaml"
-    - name: update-routeshttps-yaml
-      image: alpine
-      command: ["sed"]
-      args:
-        - "-i"
-        - "-e"
-        - "s;__NAME__;$(inputs.params.replaceName);g"
-        - "/workspace/git-source/acemsdep/routeshttps.yaml"
     - name: update-svcone-yaml
       image: alpine
       command: ["sed"]
