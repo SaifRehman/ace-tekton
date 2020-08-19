@@ -48,6 +48,22 @@ spec:
         - "-e"
         - "s;__NAME__;$(inputs.params.replaceName);g"
         - "/workspace/git-source/acemsdep/deployment.yaml"
+    - name: update-route-yaml
+      image: alpine
+      command: ["sed"]
+      args:
+        - "-i"
+        - "-e"
+        - "s;__NAME__;$(inputs.params.replaceName);g"
+        - "/workspace/git-source/acemsdep/routeshttp.yaml"
+    - name: update-routes-yaml
+      image: alpine
+      command: ["sed"]
+      args:
+        - "-i"
+        - "-e"
+        - "s;__NAME__;$(inputs.params.replaceName);g"
+        - "/workspace/git-source/acemsdep/routeshttps.yaml"
     - name: update-deployment-instance-yaml
       image: alpine
       command: ["sed"]
