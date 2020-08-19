@@ -113,7 +113,7 @@ spec:
       args:
         - "-i"
         - "-e"
-        - "s;__INSTANCE__;ibm-ace-bma-qa;g"
+        - "s;__INSTANCE__;ibm-ace-bma-prod;g"
         - "/workspace/git-source/acemsdep/deployment.yaml"
     - name: update-deployment--diff-yaml
       image: alpine
@@ -131,4 +131,4 @@ spec:
         - "-f"
         - "/workspace/git-source/$(inputs.params.pathToYamlFile)"
         - "-n"
-        - "bma-qa"
+        - "bma-prod"
