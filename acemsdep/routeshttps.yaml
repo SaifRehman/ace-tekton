@@ -11,7 +11,7 @@ metadata:
     release: __NAME__
   name: __NAME__-https
 spec:
-  host: __NAME__-https-ace.mycluster-ubl-test-8073fe2b75cf06c9cdf1ca8074c1cdb3-0000.eu-de.containers.appdomain.cloud
+  host: __NAME__-https-bma-dev.mycluster-336573-7668c7cb8fc5e368809b49af77a1e9c2-0000.eu-gb.containers.appdomain.cloud
   port:
     targetPort: ace-https
   tls:
